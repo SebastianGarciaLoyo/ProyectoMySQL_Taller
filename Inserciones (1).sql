@@ -163,20 +163,35 @@ VALUES
     (70, 'Almacén J10', 10);
 
 
+/* insertando datos a la tabla vehiculos */
+
+INSERT INTO vehiculos (placa, marca, modelo, año, kilometraje, id_cliente) VALUES 
+    ('ABC123', 'Toyota', 'Corolla', '2020-01-01',80000, 1),
+    ('DEF456', 'Honda', 'Civic', '2019-05-15',2575, 2),
+    ('GHI789', 'Ford', 'Focus', '2018-07-30',40520, 3),
+    ('JKL012', 'Chevrolet', 'Malibu', '2021-03-22',98477, 4),
+    ('MNO345', 'Nissan', 'Altima', '2017-11-18',37800, 5),
+    ('PQR678', 'Hyundai', 'Elantra', '2016-09-05',100000, 6),
+    ('STU901', 'Volkswagen', 'Jetta', '2015-06-27',90400, 7),
+    ('VWX234', 'Kia', 'Optima', '2022-02-10',99999, 8),
+    ('YZA567', 'Subaru', 'Impreza', '2014-12-13',10100, 9),
+    ('BCD890', 'Mazda', '3', '2013-08-19',5000, 10);
+
+
 /* insertando datos a la tabla reparaciones */
 
-INSERT INTO reparaciones (fecha_reparacion, descripcion_reparacion) 
+INSERT INTO reparaciones (fecha_entrega,fecha_salida, descripcion_reparacion,costo_total, id_vehiculo) 
 VALUES 
-    ('2024-05-01', 'Cambio de aceite y filtro'),
-    ('2024-05-03', 'Reparación de frenos'),
-    ('2024-05-05', 'Reparacion de frenos'),
-    ('2024-05-07', 'Alineación y balanceo'),
-    ('2024-05-10', 'Reemplazo de batería'),
-    ('2024-05-12', 'Reparación del sistema de escape'),
-    ('2024-05-15', 'Mantenimiento del aire acondicionado'),
-    ('2024-05-17', 'Reparación de la transmisión'),
-    ('2024-05-20', 'Reemplazo de pastillas de freno'),
-    ('2024-05-22', 'Reparación de la suspensión');
+    ('2024-05-01','2024-05-03', 'Cambio de aceite y filtro',233.15,1),
+    ('2024-05-03','2024-05-07', 'Reparación de frenos',249.99,2),
+    ('2024-05-05','2024-05-10', 'Reparacion de frenos',101.50,3),
+    ('2024-05-07','2024-05-11', 'Alineación y balanceo',49.99,4),
+    ('2024-05-10','2024-05-14', 'Reemplazo de batería',101.01,5),
+    ('2024-05-12','2024-05-17', 'Reparación del sistema de escape',24.85,6),
+    ('2024-05-15','2024-05-18', 'Mantenimiento del aire acondicionado',115.00,7),
+    ('2024-05-17','2024-05-20', 'Reparación de la transmisión',150.00,8),
+    ('2024-05-20','2024-05-24', 'Reemplazo de pastillas de freno',249.98,9),
+    ('2024-05-22','2024-05-27', 'Reparación de la suspensión',175.37,10);
 
 
 /* insertando datos a la tabla piezas_reparaciones */
@@ -193,22 +208,6 @@ INSERT INTO piezas_reparaciones (id_piezas, id_reparacion, cantidad) VALUES
     (9, 8, 1),  -- Fluido de transmisión para reparación de la transmisión
     (3, 9, 4);  -- Nuevas pastillas de freno para reemplazo de pastillas de freno
 
-
-/* insertando datos a la tabla vehiculos */
-
-INSERT INTO vehiculos (placa, marca, modelo, año, id_cliente) VALUES 
-    ('ABC123', 'Toyota', 'Corolla', '2020-01-01', 1),
-    ('DEF456', 'Honda', 'Civic', '2019-05-15', 2),
-    ('GHI789', 'Ford', 'Focus', '2018-07-30', 3),
-    ('JKL012', 'Chevrolet', 'Malibu', '2021-03-22', 4),
-    ('MNO345', 'Nissan', 'Altima', '2017-11-18', 5),
-    ('PQR678', 'Hyundai', 'Elantra', '2016-09-05', 6),
-    ('STU901', 'Volkswagen', 'Jetta', '2015-06-27', 7),
-    ('VWX234', 'Kia', 'Optima', '2022-02-10', 8),
-    ('YZA567', 'Subaru', 'Impreza', '2014-12-13', 9),
-    ('BCD890', 'Mazda', '3', '2013-08-19', 10);
-
-
 /* insertando datos a la tabla servicios */
 
 INSERT INTO servicios (nombre_servicio, descripcion_servicio, costo_servicio) VALUES 
@@ -224,17 +223,16 @@ INSERT INTO servicios (nombre_servicio, descripcion_servicio, costo_servicio) VA
     ('Servicio de Luces', 'Revisión y ajuste del sistema de iluminación del vehículo.', 30.00);
 
 /* insertando datos a la tabla servicio_reparaciones*/
-
 INSERT INTO servicio_reparaciones (id_servicio, id_reparacion, id_cliente, id_empleado, id_piezas, fecha, observacion, cantidad, costo) VALUES 
-(1, 1, 1, 1, 1, '2024-05-15', 'Cambio de aceite realizado exitosamente.', 1, 50.00),
-(2, 2, 2, 1, 2, '2024-05-16', 'Alineación y balanceo completados.', 1, 75.00),
-(3, 3, 3, 1, 3, '2024-05-17', 'Revisión de frenos efectuada.', 1, 60.00),
-(4, 4, 4, 2, 4, '2024-05-18', 'Batería reemplazada correctamente.', 1, 120.00),
-(5, 5, 5, 1, 5, '2024-05-19', 'Suspensión revisada y ajustada.', 1, 80.00),
-(6, 6, 6, 5, 6, '2024-05-20', 'Diagnóstico electrónico completado.', 1, 90.00),
-(7, 7, 7, 1, 7, '2024-05-21', 'Neumáticos cambiados.', 4, 200.00),
-(8, 8, 8, 4, 8, '2024-05-22', 'Climatización revisada y cargada.', 1, 65.00),
-(9, 9, 9, 9, 9, '2024-05-23', 'Filtros cambiados.', 2, 40.00),
+(1, 1, 1, 1, 1, '2024-05-01', 'Cambio de aceite realizado exitosamente.', 1, 50.00),
+(1, 1, 1, 1, 1, '2024-05-04', 'Cambio de aceite realizado exitosamente', 1, 50.00),
+(3, 3, 3, 1, 3, '2024-05-06', 'Revisión de frenos efectuada.', 1, 60.00),
+(4, 4, 4, 2, 4, '2024-05-11', 'Batería reemplazada correctamente.', 1, 120.00),
+(5, 5, 5, 1, 5, '2024-05-14', 'Suspensión revisada y ajustada.', 1, 80.00),    
+(6, 6, 6, 5, 6, '2024-05-16', 'Diagnóstico electrónico completado.', 1, 90.00),
+(7, 7, 7, 1, 7, '2024-05-15', 'Neumáticos cambiados.', 4, 200.00),
+(8, 8, 8, 4, 8, '2024-05-18', 'Climatización revisada y cargada.', 1, 65.00),
+(9, 9, 9, 9, 9, '2024-05-21', 'Filtros cambiados.', 2, 40.00),
 (10, 10, 2, 10, 10, '2024-05-24', 'Sistema de luces revisado y ajustado.', 1, 30.00);
 
 /* insertando datos a la tabla citas */

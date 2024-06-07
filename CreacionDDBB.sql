@@ -106,13 +106,29 @@ create table inventarios(
     foreign key(id_piezas) references piezas(id_piezas)
 );
 
+/* creando la tabla vehiculos*/
+
+create table vehiculos(
+	id_vehiculo int primary key not null auto_increment,
+    placa varchar(10) not null,
+    marca varchar(45) not null,
+    modelo varchar(100) not null,
+    año date not null,
+    kilometraje bigint not null,
+    id_cliente int not null,
+    foreign key(id_cliente) references clientes(id_cliente)
+);
+
 /* creando la tabla reparaciones*/
 
 create table reparaciones(
 	id_reparacion int primary key not null auto_increment,
-    fecha_reparacion date not null,
+    fecha_entrega date not null,
+    fecha_salida date not null,
     costo_total decimal(19,2) default(0.00),
-    descripcion_reparacion text
+    descripcion_reparacion text,
+    id_vehiculo int not null,
+    foreign key(id_vehiculo) references vehiculos(id_vehiculo)
 );
 
 /* creando la tabla piezas_reparaciones*/
@@ -123,18 +139,6 @@ create table  piezas_reparaciones(
     cantidad int not null,
     foreign key(id_piezas) references piezas(id_piezas),
     foreign key(id_reparacion) references reparaciones(id_reparacion)
-);
-
-/* creando la tabla vehiculos*/
-
-create table vehiculos(
-	id_vehiculo int primary key not null auto_increment,
-    placa varchar(10) not null,
-    marca varchar(45) not null,
-    modelo varchar(100) not null,
-    año date not null,
-    id_cliente int not null,
-    foreign key(id_cliente) references clientes(id_cliente)
 );
 
 /* creando la tabla servicios*/
