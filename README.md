@@ -2,7 +2,7 @@
 
 -- Modelo Relacional
 
-![Captura desde 2024-06-11 14-13-24](/home/camper/Imágenes/Capturas de pantalla/Captura desde 2024-06-11 14-13-24.png)
+
 
 ## Consultas
 
