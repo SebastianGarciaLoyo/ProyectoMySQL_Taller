@@ -1,6 +1,6 @@
 # ProyectoMySQL_Taller
 
-
+-- Modelo Relacional
 
 
 
@@ -32,6 +32,7 @@ Resultado
 
 
 
+
 2. Calcular el costo total de todas las reparaciones realizadas por un empleado
    específico en un período de tiempo
 
@@ -58,6 +59,7 @@ Resultado
 | Sebastian       | Garcia            |                 125.00 |
 +-----------------+-------------------+------------------------+
 </pre>
+
 
 
 
@@ -93,6 +95,7 @@ Resultado
 
 
 
+
 4. Obtener la cantidad de piezas en inventario para cada pieza
 
 Rta:
@@ -114,6 +117,7 @@ Resultado
 | Filtro de Aceite |                  50 |
 +------------------+---------------------+
 </pre>
+
 
 
 
@@ -148,51 +152,28 @@ Resultado
 
 
 
+
 6. Generar una factura para un cliente específico en una fecha determinada
 
 Rta:
 
 ~~~mysql
-SELECT
-    c.nombre_cliente,
-    c.apellido_cliente,
-    c.direccion_cliente,
-    r.fecha_entrega,
-    v.marca,
-    v.modelo,
-    v.año,
-    v.placa,
-    sr.observacion AS servicio_descripcion,
-    sr.costo AS servicio_costo,
-    p.nombre_piezas AS pieza_nombre
-FROM
-    clientes c
-JOIN
-    vehiculos v ON c.id_cliente = v.id_cliente
-JOIN
-    reparaciones r ON v.id_vehiculo = r.id_vehiculo
-JOIN
-    servicio_reparaciones sr ON r.id_reparacion = sr.id_reparacion
-JOIN
-    piezas_reparaciones pr ON r.id_reparacion = pr.id_reparacion
-JOIN
-    piezas p ON pr.id_piezas = p.id_piezas
-WHERE
-    c.id_cliente = 1
-    AND r.fecha_entrega = '2024-05-01'
-limit 1;
+select * 
+from facturacion
+where id_cliente = 1;
 ~~~
 
 
 
 Resultado
 
-<pre>+----------------+------------------+-------------------+---------------+--------+---------+------------+--------+------------------------------------------+----------------+------------------+
-| nombre_cliente | apellido_cliente | direccion_cliente | fecha_entrega | marca  | modelo  | año        | placa  | servicio_descripcion                     | servicio_costo | pieza_nombre     |
-+----------------+------------------+-------------------+---------------+--------+---------+------------+--------+------------------------------------------+----------------+------------------+
-| Juan           | Pérez            | Calle 123 # 45-67 | 2024-05-01    | Toyota | Corolla | 2020-01-01 | ABC123 | Cambio de aceite realizado exitosamente. |          50.00 | Filtro de Aceite |
-+----------------+------------------+-------------------+---------------+--------+---------+------------+--------+------------------------------------------+----------------+------------------+
+<pre>+------------+------------+-------+------------+
+| id_factura | fecha      | total | id_cliente |
++------------+------------+-------+------------+
+|          1 | 2024-06-01 | 50.00 |          1 |
++------------+------------+-------+------------+
 </pre>
+
 
 
 
@@ -228,6 +209,7 @@ Resultado
 
 
 
+
 8. Obtener el costo total de piezas utilizadas en una reparación específica
 
 Rta:
@@ -255,16 +237,17 @@ Resultado
 <pre>+--------------------------------------+-------------+
 | descripcion_reparacion               | costo_total |
 +--------------------------------------+-------------+
-| Cambio de aceite y filtro            |       55.98 |
-| Reparación de frenos                 |      459.95 |
-| Alineación y balanceo                |       59.98 |
-| Reemplazo de batería                 |      349.93 |
-| Reparación del sistema de escape     |      119.94 |
-| Mantenimiento del aire acondicionado |     1199.92 |
-| Reparación de la transmisión         |      259.98 |
-| Reemplazo de pastillas de freno      |      359.96 |
+| Cambio de aceite y filtro            |      125.00 |
+| Reparación de frenos                 |      360.00 |
+| Alineación y balanceo                |      160.00 |
+| Reemplazo de batería                 |       90.00 |
+| Reparación del sistema de escape     |      200.00 |
+| Mantenimiento del aire acondicionado |       65.00 |
+| Reparación de la transmisión         |       40.00 |
+| Reemplazo de pastillas de freno      |      240.00 |
 +--------------------------------------+-------------+
 </pre>
+
 
 
 
@@ -291,6 +274,7 @@ Resultado
 | Llantas de Aleación  |                  20 |
 +----------------------+---------------------+
 </pre>
+
 
 
 
@@ -326,16 +310,18 @@ Resultado
 
 
 
+
 11. Obtener el costo total de reparaciones para cada cliente en un período
     específico
 
 Rta:
 
 ~~~mysql
-select c.nombre_cliente, c.apellido_cliente, sum(r.costo_total) as total
+select c.nombre_cliente, c.apellido_cliente, sum(f.total) as total
 from clientes as c
 inner join vehiculos as v on v.id_cliente = c.id_cliente
 inner join reparaciones as r on r.id_vehiculo = v.id_vehiculo
+inner join facturacion as f
 where fecha_salida between '2024-05-01' and '2024-05-03'
 group by c.nombre_cliente, c.apellido_cliente;
 ~~~
@@ -347,9 +333,10 @@ Resultado
 <pre>+----------------+------------------+--------+
 | nombre_cliente | apellido_cliente | total  |
 +----------------+------------------+--------+
-| Juan           | Pérez            | 233.15 |
+| Juan           | Pérez            | 740.00 |
 +----------------+------------------+--------+
 </pre>
+
 
 
 
@@ -382,14 +369,15 @@ Resultado
 
 
 
+
 13. Obtener las piezas más utilizadas en reparaciones durante un período
     específico
 
 Rta:
 
 ~~~mysql
-select id_piezas, sum(cantidad) as total
-from servicio_reparaciones
+select id_piezas, max(cantidad) as total
+from piezas_reparaciones
 group by id_piezas,cantidad
 order by total desc
 limit 1;
@@ -402,26 +390,191 @@ Resultado
 <pre>+-----------+-------+
 | id_piezas | total |
 +-----------+-------+
-|         7 |     4 |
+|         3 |     4 |
 +-----------+-------+
 </pre>
 
 
 
+
 14. Calcular el promedio de costo de reparaciones por vehículo
 
+Rta:
+
 ~~~mysql
-select avg(costo_total)
-from reparaciones;
+select avg(total)
+from facturacion;
 ~~~
 
 
 
 Resultado
 
-<pre>+------------------+
-| avg(costo_total) |
-+------------------+
-|       145.084000 |
-+------------------+
+<pre>+------------+
+| avg(total) |
++------------+
+|  74.000000 |
++------------+
 </pre>
+
+
+
+15. Obtener el inventario de piezas por proveedor
+
+Rta:
+
+~~~mysql
+select p.nombre_piezas, p.descripcion_piezas, pr.nombre_proveedor
+from piezas as p
+inner join proveedores as pr on pr.id_proveedor = p.id_proveedor;
+~~~
+
+
+
+Resultado
+
+<pre>+--------------------------------+----------------------------------------------------------------------------------+------------------------+
+| nombre_piezas                  | descripcion_piezas                                                               | nombre_proveedor       |
++--------------------------------+----------------------------------------------------------------------------------+------------------------+
+| Filtro de Aceite               | Filtro de aceite estándar para motores de gasolina y diésel.                     | Autolux                |
+| Pastillas de Freno Delanteras  | Pastillas de freno de cerámica de alta calidad para uso en frenos delanteros.    | Motorparts             |
+| Amortiguadores Traseros        | Amortiguadores traseros de gas de 16 pulgadas para vehículos deportivos.         | Autorepuestos Rápidos  |
+| Batería de Arranque            | Batería de arranque de 12V y 600A para motores de gasolina.                      | TalleresExpress        |
+| Aceite de Motor Sintético      | Aceite de motor completamente sintético para motores de alto rendimiento.        | Autotec                |
+| Filtro de Aire de Alto Flujo   | Filtro de aire de alto flujo para mejorar la eficiencia del motor.               | Mecánica Total         |
+| Bujías de Encendido            | Juego de 4 bujías de platino para motores de gasolina.                           | Autoservicio Mecánico  |
+| Llantas de Aleación            | Llantas de aleación de 17 pulgadas para mejorar el rendimiento y la apariencia.  | Repuestos del Motor    |
+| Kit de Correa de Distribución  | Kit completo de correa de distribución y tensor para motores de 4 cilindros.     | Autopiezas Directo     |
+| Bombilla de Faro Halógeno      | Bombilla de faro halógeno de 55W para luces delanteras de vehículos.             | Automotriz S.A.        |
++--------------------------------+----------------------------------------------------------------------------------+------------------------+
+</pre>
+
+
+
+16. Listar los clientes que no han realizado reparaciones en el último año
+
+Rta:
+
+~~~mysql
+select r.fecha_entrega, r.fecha_salida, c.nombre_cliente, v.marca
+from reparaciones as r
+inner join vehiculos as v on r.id_vehiculo = v.id_vehiculo
+inner join clientes as c on c.id_cliente = v.id_cliente
+where month(fecha_salida) <> '05';
+~~~
+
+
+
+Resultado
+
+<pre>+---------------+--------------+----------------+-------+
+| fecha_entrega | fecha_salida | nombre_cliente | marca |
++---------------+--------------+----------------+-------+
+| 2024-02-27    | 2024-03-01   | Laura          | Mazda |
++---------------+--------------+----------------+-------+
+</pre>
+
+
+
+17. Obtener las ganancias totales del taller en un período específico
+
+Rta:
+
+~~~mysql
+select sum(total) as ganancias
+from facturacion;
+~~~
+
+
+
+Resultado
+
+<pre>+-----------+
+| ganancias |
++-----------+
+|    740.00 |
++-----------+
+</pre>
+
+
+
+18. Listar los empleados y el total de horas trabajadas en reparaciones en un
+    período específico (asumiendo que se registra la duración de cada reparación)
+
+Rta:
+
+
+
+
+
+Resultado
+
+
+
+
+
+19. Obtener el listado de servicios prestados por cada empleado en un período
+    específico
+
+Rta:
+
+~~~mysql
+select sr.id_empleado,e.nombre_empleado, e.apellido_empleado, sr.id_servicio, s.nombre_servicio
+from servicio_reparaciones as sr
+inner join empleados as e on sr.id_empleado = e.id_empleado
+inner join servicios as s on sr.id_servicio = s.id_servicio; 
+~~~
+
+
+
+Resultado
+
+<pre>+-------------+-----------------+-------------------+-------------+---------------------------------+
+| id_empleado | nombre_empleado | apellido_empleado | id_servicio | nombre_servicio                 |
++-------------+-----------------+-------------------+-------------+---------------------------------+
+|           1 | Sebastian       | Garcia            |           1 | Cambio de Aceite                |
+|           1 | Sebastian       | Garcia            |           1 | Cambio de Aceite                |
+|           1 | Sebastian       | Garcia            |           3 | Revisión de Frenos              |
+|           2 | Matias          | Gomez             |           4 | Cambio de Batería               |
+|           1 | Sebastian       | Garcia            |           5 | Revisión de Suspensión          |
+|           5 | Daniela         | Barajas           |           6 | Diagnóstico Electrónico         |
+|           1 | Sebastian       | Garcia            |           7 | Cambio de Neumáticos            |
+|           4 | Diego           | Perez             |           8 | Mantenimiento de Climatización  |
+|           9 | María           | Sanchez           |           9 | Cambio de Filtros               |
+|          10 | Pedro           | Rodríguez         |          10 | Servicio de Luces               |
++-------------+-----------------+-------------------+-------------+---------------------------------+
+</pre>
+
+
+
+## Subconsultas
+
+1. Obtener el cliente que ha gastado más en reparaciones durante el último año.
+
+Rta:
+
+~~~mysql
+select c.nombre_cliente, c.apellido_cliente
+from clientes as c
+where id_cliente = (select v.id_cliente
+from reparaciones as r
+inner join vehiculos as v on r.id_vehiculo = v.id_vehiculo
+where year(fecha_salida) = '2024'
+group by r.id_vehiculo
+order by sum(r.costo_reparacion) desc
+limit 1
+);
+~~~
+
+
+
+Resultado
+
+<pre>+----------------+------------------+
+| nombre_cliente | apellido_cliente |
++----------------+------------------+
+| Carlos         | Ramírez          |
++----------------+------------------+
+</pre>
+
+
