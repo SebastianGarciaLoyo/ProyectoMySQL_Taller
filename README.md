@@ -1,6 +1,6 @@
 # ProyectoMySQL_Taller
 
--- Modelo Relacional
+
 
 
 
