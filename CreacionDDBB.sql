@@ -125,8 +125,8 @@ create table reparaciones(
 	id_reparacion int primary key not null auto_increment,
     fecha_entrega date not null,
     fecha_salida date not null,
-    costo_total decimal(19,2) default(0.00),
     descripcion_reparacion text,
+    costo_reparacion decimal(19,2) not null,
     id_vehiculo int not null,
     foreign key(id_vehiculo) references vehiculos(id_vehiculo)
 );
@@ -159,10 +159,6 @@ create table servicio_reparaciones(
     id_cliente int not null,
     id_empleado int not null,
     id_piezas int not null,
-    fecha date not null,
-    observacion text null,
-    cantidad int not null,
-    costo decimal(19,2) not null,
     foreign key(id_servicio) references servicios(id_servicio),
     foreign key(id_reparacion) references reparaciones(id_reparacion),
     foreign key(id_cliente) references clientes(id_cliente),

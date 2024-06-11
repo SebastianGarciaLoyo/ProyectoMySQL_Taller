@@ -136,16 +136,16 @@ VALUES
 
 INSERT INTO ordenes_detalles (cantidad_detalle, precio_detalle, id_orden, id_piezas) 
 VALUES 
-    (50, 15.99, 1, 1),
-    (30, 39.99, 2, 2),
-    (40, 89.99, 3, 3),
-    (25, 99.99, 4, 4),
-    (60, 29.99, 5, 5),
-    (35, 349.93, 6, 6),
-    (45, 119.94, 7, 7),
-    (20, 1199.92, 8, 8),
-    (55, 259.98, 9, 9),
-    (70, 99.90, 10, 10);
+    (50, 50.00, 1, 1),
+    (30, 75.00, 2, 2),
+    (40, 60.00, 3, 3),
+    (25, 120.00, 4, 4),
+    (60, 80.00, 5, 5),
+    (35, 90.00, 6, 6),
+    (45, 200.00, 7, 7),
+    (20, 65.00, 8, 8),
+    (55, 40.00, 9, 9),
+    (70, 30.00, 10, 10);
 
 /* insertando datos a la tabla inventarios */
 
@@ -180,19 +180,18 @@ INSERT INTO vehiculos (placa, marca, modelo, año, kilometraje, id_cliente) VALU
 
 /* insertando datos a la tabla reparaciones */
 
-INSERT INTO reparaciones (fecha_entrega,fecha_salida, descripcion_reparacion,costo_total, id_vehiculo) 
+INSERT INTO reparaciones (fecha_entrega,fecha_salida, descripcion_reparacion, costo_reparacion, id_vehiculo) 
 VALUES 
-    ('2024-05-01','2024-05-03', 'Cambio de aceite y filtro',233.15,1),
-    ('2024-05-03','2024-05-07', 'Reparación de frenos',249.99,2),
-    ('2024-05-05','2024-05-10', 'Reparacion de frenos',101.50,3),
-    ('2024-05-07','2024-05-11', 'Alineación y balanceo',49.99,4),
-    ('2024-05-10','2024-05-14', 'Reemplazo de batería',101.01,5),
-    ('2024-05-12','2024-05-17', 'Reparación del sistema de escape',24.85,6),
-    ('2024-05-15','2024-05-18', 'Mantenimiento del aire acondicionado',115.00,7),
-    ('2024-05-17','2024-05-20', 'Reparación de la transmisión',150.00,8),
-    ('2024-05-20','2024-05-24', 'Reemplazo de pastillas de freno',249.98,9),
-    ('2024-05-22','2024-05-27', 'Reparación de la suspensión',175.37,10);
-
+    ('2024-05-01','2024-05-03', 'Cambio de aceite y filtro',50.00,1),
+    ('2024-05-03','2024-05-07', 'Reparación de frenos',60.00,2),
+    ('2024-05-05','2024-05-10', 'Reparacion de frenos',60.00,3),
+    ('2024-05-07','2024-05-11', 'Alineación y balanceo',75.00,4),
+    ('2024-05-10','2024-05-14', 'Reemplazo de batería',120.00,5),
+    ('2024-05-12','2024-05-17', 'Reparación del sistema de escape',80.00,6),
+    ('2024-05-15','2024-05-18', 'Mantenimiento del aire acondicionado',65.00,7),
+    ('2024-05-17','2024-05-20', 'Reparación de la transmisión',90.00,8),
+    ('2024-05-20','2024-05-24', 'Reemplazo de pastillas de freno',60.00,9),
+    ('2024-02-27','2024-03-01', 'Reparación de la suspensión',80.00,10);
 
 /* insertando datos a la tabla piezas_reparaciones */
 
@@ -222,18 +221,19 @@ INSERT INTO servicios (nombre_servicio, descripcion_servicio, costo_servicio) VA
     ('Cambio de Filtros', 'Cambio de filtros de aire y habitáculo.', 40.00),
     ('Servicio de Luces', 'Revisión y ajuste del sistema de iluminación del vehículo.', 30.00);
 
+
 /* insertando datos a la tabla servicio_reparaciones*/
-INSERT INTO servicio_reparaciones (id_servicio, id_reparacion, id_cliente, id_empleado, id_piezas, fecha, observacion, cantidad, costo) VALUES 
-(1, 1, 1, 1, 1, '2024-05-01', 'Cambio de aceite realizado exitosamente.', 1, 50.00),
-(1, 1, 1, 1, 1, '2024-05-04', 'Cambio de aceite realizado exitosamente', 1, 50.00),
-(3, 3, 3, 1, 3, '2024-05-06', 'Revisión de frenos efectuada.', 1, 60.00),
-(4, 4, 4, 2, 4, '2024-05-11', 'Batería reemplazada correctamente.', 1, 120.00),
-(5, 5, 5, 1, 5, '2024-05-14', 'Suspensión revisada y ajustada.', 1, 80.00),    
-(6, 6, 6, 5, 6, '2024-05-16', 'Diagnóstico electrónico completado.', 1, 90.00),
-(7, 7, 7, 1, 7, '2024-05-15', 'Neumáticos cambiados.', 4, 200.00),
-(8, 8, 8, 4, 8, '2024-05-18', 'Climatización revisada y cargada.', 1, 65.00),
-(9, 9, 9, 9, 9, '2024-05-21', 'Filtros cambiados.', 2, 40.00),
-(10, 10, 2, 10, 10, '2024-05-24', 'Sistema de luces revisado y ajustado.', 1, 30.00);
+INSERT INTO servicio_reparaciones (id_servicio, id_reparacion, id_cliente, id_empleado, id_piezas) VALUES 
+(1, 1, 1, 1, 1),
+(1, 1, 1, 1, 1),
+(3, 3, 3, 1, 3),
+(4, 4, 4, 2, 4),
+(5, 5, 5, 1, 5),    
+(6, 6, 6, 5, 6),
+(7, 7, 7, 1, 7),
+(8, 8, 8, 4, 8),
+(9, 9, 9, 9, 9),
+(10, 10, 2, 10, 10);
 
 /* insertando datos a la tabla citas */
 
@@ -252,32 +252,33 @@ INSERT INTO citas (fecha_cita, hora_cita, id_servicio, id_cliente, id_vehiculo) 
 
 /* insertando datos a la tabla facturacion */
 
-INSERT INTO facturacion (fecha, id_cliente) VALUES
-('2024-06-01', 1),
-('2024-06-02', 2),
-('2024-06-03', 3),
-('2024-06-04', 4),
-('2024-06-05', 5),
-('2024-06-06', 6),
-('2024-06-07', 7),
-('2024-06-08', 8),
-('2024-06-09', 9),
-('2024-06-10', 10);
+INSERT INTO facturacion (fecha, total, id_cliente) VALUES
+('2024-06-01',50.00, 1),
+('2024-06-02',60.00, 2),
+('2024-06-03',60.00, 3),
+('2024-06-04',75.00, 4),
+('2024-06-05',120.00, 5),
+('2024-06-06',80.00, 6),
+('2024-06-07',65.00, 7),
+('2024-06-08',90.00, 8),
+('2024-06-09',60.00, 9),
+('2024-02-01',80.00, 10);
+
 
 
 /* insertando datos a la tabla factura_detalles */
 
 INSERT INTO factura_detalles (cantidad_facturadetalle, precio_facturadetalle, id_reparacion, id_factura) VALUES
-(2, 125.00, 1, 1),
-(1, 325.50, 2, 2),
-(3, 150.00, 3, 3),
-(1, 150.25, 4, 4),
-(5, 115.00, 5, 5),
-(2, 145.00, 6, 6),
-(4, 152.50, 7, 7),
-(1, 410.50, 8, 8),
-(3, 241.67, 9, 9),
-(2, 182.63, 10, 10);
+(2, 50.00, 1, 1),
+(1, 60.00, 2, 2),
+(3, 60.00, 3, 3),
+(1, 75.00, 4, 4),
+(5, 120.00, 5, 5),
+(2, 80.00, 6, 6),
+(4, 65.00, 7, 7),
+(1, 90.00, 8, 8),
+(3, 60.00, 9, 9),
+(2, 80.00, 10, 10);
 
 
 /* insertando datos a la tabla region */
